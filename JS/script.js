@@ -32,32 +32,16 @@ title.on('change', function (){ //why this does not work with arrow function
  design.eq(0).hide();
 //  tshirtColor.hide();
 
- tshirtColor.prepend("<option>Please select a T-shirt theme</option>");
+ tshirt.prepend("<option>Please select a T-shirt theme</option>");
 
- tshirt.each(function (index, element){
-    tshirtColor.eq(index).hide();
+ tshirtColor.each(function (index, element){
+    // console.log($(element))
+    console.log(element.filter(function(){
+        
+    }))
+    // tshirtColor.eq(index).hide();
+    // if(element)
  });
 
- 
-     
-
- selectDesign.on('change', function() {
-     if (this.value === 'js puns') {
-        //  tshirtColor.prepend(`<option>Please select a T-shirt theme</option>`);
-         tshirtColor.eq(3).hide();
-         tshirtColor.eq(4).hide();
-         tshirtColor.eq(5).hide();
-     } else {
-         tshirtColor.eq(0).hide();
-         tshirtColor.eq(1).hide();
-         tshirtColor.eq(2).hide();
-     }
- })
-
-
-//Activity Section
-$('.activities input').each(function(index, element){
-    console.log()
-});
 
 
