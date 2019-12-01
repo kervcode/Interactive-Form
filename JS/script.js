@@ -5,8 +5,8 @@ const jobTitle = $('#title option');
 const input = $('#other-title');
 const selectDesign = $('#design'); 
 const design = $('#design option');
-const tshirt = $('#color');
-const tshirtColor = $('#color option');
+const tshirtColor = $('#color');
+const tshirtOptions = $('#color option');
 
 
 // set the focus on the first text field
@@ -31,17 +31,23 @@ title.on('change', function (){ //why this does not work with arrow function
 //t-shirt section
  design.eq(0).hide();
 //  tshirtColor.hide();
+// console.log(tshirtColor.children().last())
+// console.log(tshirtOptions.eq(0))
 
- tshirt.prepend("<option>Please select a T-shirt theme</option>");
+// tshirtColor.insertBefore(tshirtOptions.eq(0), "<option>Please select a T-shirt theme</option>")
 
- tshirtColor.each(function (index, element){
-    // console.log($(element))
-    console.log(element.filter(function(){
-        
-    }))
-    // tshirtColor.eq(index).hide();
-    // if(element)
- });
+// tshirtColor.each(function(index, element){
+//     tshirtOptions.hide();
+// })
 
+// tshirtColor.prepend("<option>Please select a T-shirt theme</option>");
+
+//  selectDesign.change(function(event){
+//      console.log(event.target.nodeName)
+//  })
+
+tshirtColor.on('change', function(){
+    
+})
 
 
