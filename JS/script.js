@@ -43,7 +43,6 @@ $(function() {
   // Hide all color themes
   function manageTheme() {
     $tshirtOptions.each(function(i, element) {
-      // console.log(tshirtOptions.eq(i).val());
       if (
         $(element)
           .eq(i)
@@ -67,9 +66,7 @@ $(function() {
   // show appropriate color for selected theme
   $selectDesign.on("change", function(event) {
     console.log($(event.target).val()); //can't call nodeName() - Why?
-    // console.log($(event.target));
     $tshirtOptions.each(function(i, element) {
-      // console.log($(this).val());
       if ($(event.target).val() === "js puns") {
         $tshirtOptions
           .slice(0, 3)
@@ -88,8 +85,6 @@ $(function() {
           .slice(0, 3)
           .attr("disabled", true)
           .attr("hidden", true);
-      } else {
-        // manageTheme();
       }
     });
   });
