@@ -1,14 +1,14 @@
 $(function() {
   //GLOBAL VARAIBLES
-  // const $other = $("#other-title");
   const $title = $("#title");
-  // const $jobTitle = $("#title option");
   const $input = $("#other-title");
   const $selectDesign = $("#design");
   const $design = $("#design option");
   const $tshirtColor = $("#color");
   const $tshirtOptions = $("#color option");
-
+  let $total = $(".activities input")
+    .last()
+    .val();
   /**
    * ------------------Input Feild Section--------------------------
    * set the focus on the first text field
@@ -88,4 +88,6 @@ $(function() {
       }
     });
   });
+  // Register for activities section
+  console.log($total);
 });
