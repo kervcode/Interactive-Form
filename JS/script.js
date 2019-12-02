@@ -1,8 +1,8 @@
 $(function() {
   //GLOBAL VARAIBLES
-  const $other = $("#other-title");
+  // const $other = $("#other-title");
   const $title = $("#title");
-  const $jobTitle = $("#title option");
+  // const $jobTitle = $("#title option");
   const $input = $("#other-title");
   const $selectDesign = $("#design");
   const $design = $("#design option");
@@ -15,6 +15,7 @@ $(function() {
    **/
   $(window).on("load", () => {
     $("#name").focus();
+    manageTheme();
   });
   /**
    * ------------------Job Role Section--------------------------
@@ -40,41 +41,55 @@ $(function() {
   $design.eq(0).hide();
 
   // Hide all color themes
-  $tshirtOptions.each(function(i, element) {
-    // console.log(tshirtOptions.eq(i).val());
-    if (
-      $(element)
-        .eq(i)
-        .val() !== "cornflowerblue"
-    ) {
-      $(this)
-        // .eq(i) //returned undefined when left uncommented
-        .attr("disabled", true)
-        .attr("hidden", true);
-      console.log($(this));
-    } else {
-      $(this)
-        .before("<option>Please select a T-shirt theme</option>")
-        .attr("selected", "selected");
-      $("#color option:selected")
-        .removeAttr("selected")
-        .attr("hidden", true);
-    }
-  });
+  function manageTheme() {
+    $tshirtOptions.each(function(i, element) {
+      // console.log(tshirtOptions.eq(i).val());
+      if (
+        $(element)
+          .eq(i)
+          .val() !== "cornflowerblue"
+      ) {
+        $(this)
+          // .eq(i) //returned undefined when left uncommented
+          .attr("disabled", true)
+          .attr("hidden", true);
+      } else {
+        $(this)
+          .before("<option>Please select a T-shirt theme</option>")
+          .attr("selected", "selected");
+        $("#color option:selected")
+          .removeAttr("selected")
+          .attr("hidden", true);
+      }
+    });
+  }
 
-  // tshirtTheme.attr("selected", "selected");
-
+  // show appropriate color for selected theme
   $selectDesign.on("change", function(event) {
     console.log($(event.target).val()); //can't call nodeName() - Why?
+    // console.log($(event.target));
     $tshirtOptions.each(function(i, element) {
-      if ($(element).val() === "js puns") {
-        //   console.log($(element).val());
-        tshirtOptions
-          .eq(0)
-          .removeAttr("disabled")
-          .show();
-        $tshirtOptions.eq(1).show();
-        $tshirtOptions.eq(2).show();
+      // console.log($(this).val());
+      if ($(event.target).val() === "js puns") {
+        $tshirtOptions
+          .slice(0, 3)
+          .removeAttr("hidden")
+          .removeAttr("disabled");
+        $tshirtOptions
+          .slice(3, 6)
+          .attr("hidden", true)
+          .attr("disabled", true);
+      } else if ($(event.target).val() === "heart js") {
+        $tshirtOptions
+          .slice(3, 6)
+          .removeAttr("hidden")
+          .removeAttr("disabled");
+        $tshirtOptions
+          .slice(0, 3)
+          .attr("disabled", true)
+          .attr("hidden", true);
+      } else {
+        // manageTheme();
       }
     });
   });
