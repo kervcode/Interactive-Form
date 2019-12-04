@@ -8,8 +8,8 @@ $(function() {
   const $tshirtOptions = $("#color option");
   
   let $total = $(".activities");
-  const $activities = $total.children().children();
-  let $totalText;
+  const $activities = $total.children().children(); //store all input checkboxes
+  let $totalText = 0;
   /** ------------------Input Feild Section--------------------------
    * set the focus on the first text field **/
   $(window).on("load", () => {
@@ -88,11 +88,22 @@ $(function() {
 
 //create field for the total field
 // console.log($activities);
-$total.append('<p>Total: $</p>');
+$total.append(`<p>Total: $${$totalText}</p>`);
 
-$activities.each(function(i, activity){
-    console.log($(activity).attr('data-cost'))
+//listening for change in activities
+$activities.on('change', function(event){
+    console.log($(event.target))
+    // console.log($(event.target).attr('data-cost'))
+    if(this.checked){
+        console.log($(this).attr('data-day-and-time'))
+    }
 })
+
+// $activities.each(function(i, activity){
+//     // console.log($(activity).attr('data-cost'))
+//     // console.log($(activity).attr('data-day-and-time'))
+
+// })
 
 });
 
