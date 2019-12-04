@@ -6,21 +6,18 @@ $(function() {
   const $design = $("#design option");
   const $tshirtColor = $("#color");
   const $tshirtOptions = $("#color option");
-  let $total = $(".activities input")
-    .last()
-    .val();
-  /**
-   * ------------------Input Feild Section--------------------------
-   * set the focus on the first text field
-   **/
+  
+  let $total = $(".activities");
+  const $activities = $total.children().children();
+  let $totalText;
+  /** ------------------Input Feild Section--------------------------
+   * set the focus on the first text field **/
   $(window).on("load", () => {
     $("#name").focus();
     manageTheme();
   });
-  /**
-   * ------------------Job Role Section--------------------------
-   * set the focus on the first text field
-   **/
+  /** ------------------Job Role Section--------------------------
+   * set the focus on the first text field **/
   //initially hide text field for input
   $input.hide();
 
@@ -34,10 +31,8 @@ $(function() {
       $input.slideUp(150);
     }
   });
-  /**
-   * ----------- T-Shirt Infor Section--------------------------
-   * set the focus on the first text field
-   **/
+  /** ----------- T-Shirt Infor Section--------------------------
+   * set the focus on the first text field **/
   $design.eq(0).hide();
 
   // Hide all color themes
@@ -88,6 +83,19 @@ $(function() {
       }
     });
   });
-  // Register for activities section
-  console.log($total);
+// Register for activities section
+
+
+//create field for the total field
+// console.log($activities);
+$total.append('<p>Total: $</p>');
+
+$activities.each(function(i, activity){
+    console.log($(activity).attr('data-cost'))
+})
+
 });
+
+
+
+
