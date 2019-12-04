@@ -6,7 +6,7 @@ $(function() {
   const $design = $("#design option");
   const $tshirtColor = $("#color");
   const $tshirtOptions = $("#color option");
-  
+
   let $total = $(".activities");
   const $activities = $total.children().children(); //store all input checkboxes
   let $totalText = 0;
@@ -83,30 +83,26 @@ $(function() {
       }
     });
   });
-// Register for activities section
+  // Register for activities section
 
+  //create field for the total field
+  console.log($activities);
+  $total.append(`<p>Total: $${$totalText}</p>`);
 
-//create field for the total field
-// console.log($activities);
-$total.append(`<p>Total: $${$totalText}</p>`);
-
-//listening for change in activities
-$activities.on('change', function(event){
-    console.log($(event.target))
+  //listening for change in activities
+  $activities.on("change", function(event) {
+    const clickedInput = $activities.checked;
+    console.log(clickedInput);
+    // console.log($(event.target));
     // console.log($(event.target).attr('data-cost'))
-    if(this.checked){
-        console.log($(this).attr('data-day-and-time'))
+    if (this.checked) {
+      console.log($(this).attr("data-day-and-time"));
     }
-})
+  });
 
-// $activities.each(function(i, activity){
-//     // console.log($(activity).attr('data-cost'))
-//     // console.log($(activity).attr('data-day-and-time'))
+  // $activities.each(function(i, activity){
+  //     // console.log($(activity).attr('data-cost'))
+  //     // console.log($(activity).attr('data-day-and-time'))
 
-// })
-
+  // })
 });
-
-
-
-
