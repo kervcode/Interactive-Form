@@ -4,17 +4,18 @@ $(function () {
   const $input = $("#other-title");
   const $selectDesign = $("#design");
   const $design = $("#design option");
-  // const $tshirtColor = $("#color");
+  const $tshirtColor = $("#color");
   const $tshirtOptions = $("#color option");
 
   let $total = $(".activities");
   const $activities = $total.children().children(); //store all input checkboxes
-  let ConferencePrice = 0;
+  let conferencePrice = 0;
   /** ------------------Input Feild Section--------------------------
    * set the focus on the first text field **/
   $(window).on("load", () => {
     $("#name").focus();
     manageTheme();
+    createPriceField()
   });
   /** ------------------Job Role Section--------------------------
    * set the focus on the first text field **/
@@ -87,31 +88,99 @@ $(function () {
 
   //create field for the total field
   // console.log($activities);
-  $total.append(`<p>Total: ${ConferencePrice}</p>`);
+  function createPriceField() {
+    let paragraphField = "<p>Total: <span>" + conferencePrice + "</span></p>";
+
+    $total.append(paragraphField)
+
+  }
+
+  // function removePriceField() {
+  //   $total.remove(`<p>Total: ${conferencePrice}</p>`);
+  // }
 
   //listening for change in activities
   $activities.on("change", function (event) {
     const clickedInput = $(event.target);
-    let getDataCost = clickedInput.attr("data-cost");
-    // getDataCost = getDataCost;
-    console.log(getDataCost);
-    // console.log(clickedInput);
-    if (clickedInput.is(':checked')) {
-      ConferencePrice = parseInt(ConferencePrice + getDataCost);
-      console.log(ConferencePrice);
+    let getDataCost = $(clickedInput).attr("data-cost");
+    getDataCost = getDataCost.slice(1, 4)
+    let getDataCostChecked = $(event.target).is(':checked')
+    let dataDayAndTime = $(clickedInput).attr("data-day-and-time")
+
+    if ($(getDataCostChecked)) {
+      conferencePrice = conferencePrice + parseInt(getDataCost);
+      // createPriceField();
+    } else {
+      conferencePrice = conferencePrice - parseInt(getDataCost);
     }
-    // console.log($(event.target));
-    // console.log($(event.target).attr('data-cost'))
-    console.log(typeof getDataCost);
-    console.log(typeof ConferencePrice);
 
-    console.log(ConferencePrice);
-    // console.log($(this).attr("data-day-and-time"));
+    /*
+      //disable overlapsing time slot
+      for (let activity in $activities) {
+        // console.log($($activities[activity]).attr('data-day-and-time'))
+        if (dataDayAndTime === $($activities[activity]).attr('data-day-and-time')) {
+          console.log($($activities[activity]).attr('data-day-and-time'))
+        }
+      }
+  */
+    for (let i = 0; i < $activities.length; i++) {
+      let checkedActivity = $($activities[i]).attr("data-day-and-time");
+
+      if (dataDayAndTime === checkedActivity) {
+        if (!($($activities[i]).prop('checked'))) {
+          console.log(checkedActivity)
+          $($activities[i]).attr('disabled', true)
+        }
+      }
+    }
+
+
+    // console.log($(clickedInput).prop('checked'))
+
+function basicInfo(){
+  
+}
+
+
+
+
+
+
+    // check created variables 
+    // console.log(getDataCost)
+    // console.log(clickedInput)
+    // console.log($activities)
+    // console.log(dataDayAndTime)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // const 
+    // // getDataCost = getDataCost;
+    // console.log(getDataCost);
+    // // console.log(clickedInput);
+    // if (clickedInput.is(':checked')) {
+    //   ConferencePrice = parseInt(ConferencePrice + getDataCost);
+    //   console.log(ConferencePrice);
+    // }
+    // // console.log($(event.target));
+    // // console.log($(event.target).attr('data-cost'))
+    // console.log(typeof getDataCost);
+    // console.log(typeof ConferencePrice);
+
+    // console.log(ConferencePrice);
+    // // console.log($(this).attr("data-day-and-time"));
   });
-
-  // $activities.each(function(i, activity){
-  //     // console.log($(activity).attr('data-cost'))
-  //     // console.log($(activity).attr('data-day-and-time'))
-
-  // })
 });
