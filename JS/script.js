@@ -9,7 +9,7 @@ $(function () {
 
   let $total = $(".activities");
   const $activities = $total.children().children(); //store all input checkboxes
-  let price = 0;
+  let ConferencePrice = 0;
   /** ------------------Input Feild Section--------------------------
    * set the focus on the first text field **/
   $(window).on("load", () => {
@@ -87,7 +87,7 @@ $(function () {
 
   //create field for the total field
   // console.log($activities);
-  $total.append(`<p>Total: ${price}</p>`);
+  $total.append(`<p>Total: ${ConferencePrice}</p>`);
 
   //listening for change in activities
   $activities.on("change", function (event) {
@@ -97,15 +97,15 @@ $(function () {
     console.log(getDataCost);
     // console.log(clickedInput);
     if (clickedInput.is(':checked')) {
-      price = parseInt(price + getDataCost);
-      console.log(price);
+      ConferencePrice = parseInt(ConferencePrice + getDataCost);
+      console.log(ConferencePrice);
     }
     // console.log($(event.target));
     // console.log($(event.target).attr('data-cost'))
     console.log(typeof getDataCost);
-    console.log(typeof price);
+    console.log(typeof ConferencePrice);
 
-    console.log(price);
+    console.log(ConferencePrice);
     // console.log($(this).attr("data-day-and-time"));
   });
 
