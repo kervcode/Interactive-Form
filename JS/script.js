@@ -1,15 +1,15 @@
-$(function() {
+$(function () {
   //GLOBAL VARAIBLES
   const $title = $("#title");
   const $input = $("#other-title");
   const $selectDesign = $("#design");
   const $design = $("#design option");
-  const $tshirtColor = $("#color");
+  // const $tshirtColor = $("#color");
   const $tshirtOptions = $("#color option");
 
   let $total = $(".activities");
   const $activities = $total.children().children(); //store all input checkboxes
-  let $totalText = 0;
+  let price = 0;
   /** ------------------Input Feild Section--------------------------
    * set the focus on the first text field **/
   $(window).on("load", () => {
@@ -22,7 +22,7 @@ $(function() {
   $input.hide();
 
   // reveal a text field when other option is selected in job role field
-  $title.on("change", function() {
+  $title.on("change", function () {
     //why this does not work with arrow function
     if (this.value === "other") {
       $input.delay(100).slideDown();
@@ -37,11 +37,11 @@ $(function() {
 
   // Hide all color themes
   function manageTheme() {
-    $tshirtOptions.each(function(i, element) {
+    $tshirtOptions.each(function (i, element) {
       if (
         $(element)
-          .eq(i)
-          .val() !== "cornflowerblue"
+        .eq(i)
+        .val() !== "cornflowerblue"
       ) {
         $(this)
           // .eq(i) //returned undefined when left uncommented
@@ -59,9 +59,9 @@ $(function() {
   }
 
   // show appropriate color for selected theme
-  $selectDesign.on("change", function(event) {
+  $selectDesign.on("change", function (event) {
     console.log($(event.target).val()); //can't call nodeName() - Why?
-    $tshirtOptions.each(function(i, element) {
+    $tshirtOptions.each(function (i, element) {
       if ($(event.target).val() === "js puns") {
         $tshirtOptions
           .slice(0, 3)
@@ -86,18 +86,27 @@ $(function() {
   // Register for activities section
 
   //create field for the total field
-  console.log($activities);
-  $total.append(`<p>Total: $${$totalText}</p>`);
+  // console.log($activities);
+  $total.append(`<p>Total: ${price}</p>`);
 
   //listening for change in activities
-  $activities.on("change", function(event) {
-    const clickedInput = $activities.checked;
-    console.log(clickedInput);
+  $activities.on("change", function (event) {
+    const clickedInput = $(event.target);
+    let getDataCost = clickedInput.attr("data-cost");
+    // getDataCost = getDataCost;
+    console.log(getDataCost);
+    // console.log(clickedInput);
+    if (clickedInput.is(':checked')) {
+      price = parseInt(price + getDataCost);
+      console.log(price);
+    }
     // console.log($(event.target));
     // console.log($(event.target).attr('data-cost'))
-    if (this.checked) {
-      console.log($(this).attr("data-day-and-time"));
-    }
+    console.log(typeof getDataCost);
+    console.log(typeof price);
+
+    console.log(price);
+    // console.log($(this).attr("data-day-and-time"));
   });
 
   // $activities.each(function(i, activity){
