@@ -1,4 +1,4 @@
-$(function () {
+$(function() {
   //GLOBAL VARAIBLES
   const $title = $("#title");
   const $input = $("#other-title");
@@ -23,7 +23,7 @@ $(function () {
   $input.hide();
 
   // reveal a text field when other option is selected in job role field
-  $title.on("change", function () {
+  $title.on("change", function() {
     //why this does not work with arrow function
     if (this.value === "other") {
       $input.delay(100).slideDown();
@@ -38,11 +38,11 @@ $(function () {
 
   // Hide all color themes
   function manageTheme() {
-    $tshirtOptions.each(function (i, element) {
+    $tshirtOptions.each(function(i, element) {
       if (
         $(element)
-        .eq(i)
-        .val() !== "cornflowerblue"
+          .eq(i)
+          .val() !== "cornflowerblue"
       ) {
         $(this)
           // .eq(i) //returned undefined when left uncommented
@@ -60,9 +60,9 @@ $(function () {
   }
 
   // show appropriate color for selected theme
-  $selectDesign.on("change", function (event) {
+  $selectDesign.on("change", function(event) {
     console.log($(event.target).val()); //can't call nodeName() - Why?
-    $tshirtOptions.each(function (i, element) {
+    $tshirtOptions.each(function(i, element) {
       if ($(event.target).val() === "js puns") {
         $tshirtOptions
           .slice(0, 3)
@@ -88,26 +88,23 @@ $(function () {
 
   //create field for the total field
   // console.log($activities);
-  // function createPriceField() {
-  const paragraphField = "<p>Total: <span></span></p>";
-  let paragraphTotal = $(paragraphField).children()
-
-  console.log(paragraphTotal)
-  // $total.append(paragraphField)
-
-  // }
+  function createPriceField() {
+    let paragraphField = "<p>Total: <span>" + conferencePrice + "</span></p>";
+    $total.append(paragraphField);
+  }
 
   // function removePriceField() {
   //   $total.remove(`<p>Total: ${conferencePrice}</p>`);
   // }
 
   //listening for change in activities
-  $activities.on("change", function (event) {00  
+  $activities.on("change", function(event) {
     let clickedInput = $(event.target);
     let getDataCost = $(clickedInput).attr("data-cost");
-    getDataCost = getDataCost.slice(1, 4)
-    let getDataCostChecked = clickedInput.is(':checked')
-    let dataDayAndTime = $(clickedInput).attr("data-day-and-time")
+    getDataCost = getDataCost.slice(1, 4);
+    // let getDataCostChecked = $(event.target).is(':checked')
+    let getDataCostChecked = $(this).prop("checked") == true;
+    let dataDayAndTime = $(clickedInput).attr("data-day-and-time");
 
     if (getDataCostChecked) {
       conferencePrice = conferencePrice + parseInt(getDataCost);
@@ -115,6 +112,31 @@ $(function () {
     } else {
       conferencePrice = conferencePrice - parseInt(getDataCost);
     }
+
+    // check for conflicting activities
+    for (let i = 0; i < $activities.length; i++) {
+      let $checkedActivity = $($activities[i]).attr("data-day-and-time");
+      if (
+        dataDayAndTime === $checkedActivity &&
+        clickedInput !== $activities[i]
+      ) {
+        // if (($(this).prop('checked') ==false) && $checkedActivity === dataDayAndTime ){
+        //   $($activities[i]).attr('disabled', true)
+        // } else {
+        //   $($activities[i]).attr('disabled', false)
+        // }
+      }
+    }
+
+    // console.log($(clickedInput).prop('checked'))
+
+    function basicInfo() {}
+
+    // check created variables
+    // console.log(getDataCost)
+    // console.log(clickedInput)
+    // console.log($activities)
+    // console.log(dataDayAndTime)
 
     /*
       //disable overlapsing time slot
@@ -125,51 +147,8 @@ $(function () {
         }
       }
   */
-    for (let i = 0; i < $activities.length; i++) {
-      let checkedActivity = $($activities[i]).attr("data-day-and-time");
 
-      if (dataDayAndTime === checkedActivity) {
-        if (getDataCostChecked) {
-          console.log(checkedActivity)
-          $($activities[i]).attr('disabled', true)
-        }
-      }
-    }
-
-
-    // console.log($(clickedInput).prop('checked'))
-
-    function basicInfo() {
-
-    }
-
-
-
-
-
-
-    // check created variables 
-    // console.log(getDataCost)
-    // console.log(clickedInput)
-    // console.log($activities)
-    // console.log(dataDayAndTime)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // const 
+    // const
     // // getDataCost = getDataCost;
     // console.log(getDataCost);
     // // console.log(clickedInput);
