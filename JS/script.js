@@ -1,4 +1,4 @@
-$(function() {
+$(function () {
   //GLOBAL VARAIBLES
   const $title = $("#title");
   const $input = $("#other-title");
@@ -23,7 +23,7 @@ $(function() {
   $input.hide();
 
   // reveal a text field when other option is selected in job role field
-  $title.on("change", function() {
+  $title.on("change", function () {
     //why this does not work with arrow function
     if (this.value === "other") {
       $input.delay(100).slideDown();
@@ -38,11 +38,11 @@ $(function() {
 
   // Hide all color themes
   function manageTheme() {
-    $tshirtOptions.each(function(i, element) {
+    $tshirtOptions.each(function (i, element) {
       if (
         $(element)
-          .eq(i)
-          .val() !== "cornflowerblue"
+        .eq(i)
+        .val() !== "cornflowerblue"
       ) {
         $(this)
           // .eq(i) //returned undefined when left uncommented
@@ -60,9 +60,9 @@ $(function() {
   }
 
   // show appropriate color for selected theme
-  $selectDesign.on("change", function(event) {
+  $selectDesign.on("change", function (event) {
     console.log($(event.target).val()); //can't call nodeName() - Why?
-    $tshirtOptions.each(function(i, element) {
+    $tshirtOptions.each(function (i, element) {
       if ($(event.target).val() === "js puns") {
         $tshirtOptions
           .slice(0, 3)
@@ -84,6 +84,8 @@ $(function() {
       }
     });
   });
+
+  66
   // Register for activities section
 
   //create field for the total field
@@ -99,73 +101,30 @@ $(function() {
   // }
 
   //listening for change in activities
-  $activities.on("change", function(event) {
-    let clickedInput = $(event.target);
-    let getDataCost = $(clickedInput).attr("data-cost");
-    getDataCost = getDataCost.slice(1, 4);
+  $checkboxes.on("change", function (event) {
+    let clicked = event.target;
+    let clickedCost = $(clicked).attr("data-cost");
+    let clickedTime = $(clicked).attr('data-day-and-time')
+    clickedCost = clickedCost.slice(1, 4);
+
+    console.log(clicked)
+    console.log(clickedCost)
+    console.log(clickedTime)
     // let getDataCostChecked = $(event.target).is(':checked')
-    let getDataCostChecked = $(this).prop("checked") == true;
-    let dataDayAndTime = $(clickedInput).attr("data-day-and-time");
 
-    if (getDataCostChecked) {
-      conferencePrice = conferencePrice + parseInt(getDataCost);
-      // createPriceField();
-    } else {
-      conferencePrice = conferencePrice - parseInt(getDataCost);
-    }
-
-    // check for conflicting activities
-    for (let checkbox = 0; checkbox < $checkboxes.length; checkbox++) {
-      let $checkedActivity = $($checkboxes[checkbox]).attr("data-day-and-time");
-      if (
-        dataDayAndTime === $checkedActivity &&
-        clickedInput !== $checkboxes[checkbox]
-      ) {
-        if (
-          $(this).prop("checked") == false &&
-          $checkedActivity === dataDayAndTime
-        ) {
-          $($activities[i]).attr("disabled", true);
+    for (let i = 0; i < $checkboxes.length; i++) {
+      let checkboxTime = $($checkboxes[i]).attr('data-day-and-time');
+      if (clickedTime === checkboxTime && clicked !== $checkboxes[i]) {
+        if ($(clicked).prop('checked')) {
+          $($checkboxes[i]).attr('disabled', true);
         } else {
-          $($activities[i]).attr("disabled", false);
+          $($checkboxes[i]).attr('disabled', false);
         }
       }
+      console.log(checkboxTime)
     }
-
-    // console.log($(clickedInput).prop('checked'))
 
     function basicInfo() {}
 
-    // check created variables
-    // console.log(getDataCost)
-    // console.log(clickedInput)
-    // console.log($activities)
-    // console.log(dataDayAndTime)
-
-    /*
-      //disable overlapsing time slot
-      for (let activity in $activities) {
-        // console.log($($activities[activity]).attr('data-day-and-time'))
-        if (dataDayAndTime === $($activities[activity]).attr('data-day-and-time')) {
-          console.log($($activities[activity]).attr('data-day-and-time'))
-        }
-      }
-  */
-
-    // const
-    // // getDataCost = getDataCost;
-    // console.log(getDataCost);
-    // // console.log(clickedInput);
-    // if (clickedInput.is(':checked')) {
-    //   ConferencePrice = parseInt(ConferencePrice + getDataCost);
-    //   console.log(ConferencePrice);
-    // }
-    // // console.log($(event.target));
-    // // console.log($(event.target).attr('data-cost'))
-    // console.log(typeof getDataCost);
-    // console.log(typeof ConferencePrice);
-
-    // console.log(ConferencePrice);
-    // // console.log($(this).attr("data-day-and-time"));
   });
 });
