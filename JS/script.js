@@ -8,7 +8,7 @@ $(function () {
   const $tshirtOptions = $("#color option");
 
   let $total = $(".activities");
-  const $activities = $total.children().children(); //store all input checkboxes
+  const $checkboxes = $total.children().children(); //store all input checkboxes
   let conferencePrice = 0;
   /** ------------------Input Feild Section--------------------------
    * set the focus on the first text field **/
@@ -90,7 +90,9 @@ $(function () {
   // console.log($activities);
   function createPriceField() {
     let paragraphField = "<p>Total: <span>" + conferencePrice + "</span></p>";
+
     $total.append(paragraphField)
+
   }
 
   // function removePriceField() {
@@ -114,9 +116,9 @@ $(function () {
     }
 
     // check for conflicting activities
-    for (let i = 0; i < $activities.length; i++) {
-      let $checkedActivity = $($activities[i]).attr("data-day-and-time");
-        if ((dataDayAndTime === $checkedActivity) && clickedInput !== $activities[i]){
+    for (let checkbox = 0; checkbox < $checkboxes.length; checkbox++) {
+      let $checkedActivity = $($checkboxes[checkbox]).attr("data-day-and-time");
+        if ((dataDayAndTime === $checkedActivity) && clickedInput !== $checkboxes[checkbox]){
 
 
             // if (($(this).prop('checked') ==false) && $checkedActivity === dataDayAndTime ){
