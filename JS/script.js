@@ -15,7 +15,7 @@ $(function () {
   $(window).on("load", () => {
     $("#name").focus();
     manageTheme();
-    createPriceField()
+    // createPriceField()
   });
   /** ------------------Job Role Section--------------------------
    * set the focus on the first text field **/
@@ -88,26 +88,28 @@ $(function () {
 
   //create field for the total field
   // console.log($activities);
-  function createPriceField() {
-    let paragraphField = "<p>Total: <span>" + conferencePrice + "</span></p>";
+  // function createPriceField() {
+  const paragraphField = "<p>Total: <span></span></p>";
+  let paragraphTotal = $(paragraphField).children()
 
-    $total.append(paragraphField)
+  console.log(paragraphTotal)
+  // $total.append(paragraphField)
 
-  }
+  // }
 
   // function removePriceField() {
   //   $total.remove(`<p>Total: ${conferencePrice}</p>`);
   // }
 
   //listening for change in activities
-  $activities.on("change", function (event) {
-    const clickedInput = $(event.target);
+  $activities.on("change", function (event) {00  
+    let clickedInput = $(event.target);
     let getDataCost = $(clickedInput).attr("data-cost");
     getDataCost = getDataCost.slice(1, 4)
-    let getDataCostChecked = $(event.target).is(':checked')
+    let getDataCostChecked = clickedInput.is(':checked')
     let dataDayAndTime = $(clickedInput).attr("data-day-and-time")
 
-    if ($(getDataCostChecked)) {
+    if (getDataCostChecked) {
       conferencePrice = conferencePrice + parseInt(getDataCost);
       // createPriceField();
     } else {
@@ -127,7 +129,7 @@ $(function () {
       let checkedActivity = $($activities[i]).attr("data-day-and-time");
 
       if (dataDayAndTime === checkedActivity) {
-        if (!($($activities[i]).prop('checked'))) {
+        if (getDataCostChecked) {
           console.log(checkedActivity)
           $($activities[i]).attr('disabled', true)
         }
@@ -137,9 +139,9 @@ $(function () {
 
     // console.log($(clickedInput).prop('checked'))
 
-function basicInfo(){
-  
-}
+    function basicInfo() {
+
+    }
 
 
 
