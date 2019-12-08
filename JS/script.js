@@ -121,11 +121,14 @@ $(function() {
         dataDayAndTime === $checkedActivity &&
         clickedInput !== $checkboxes[checkbox]
       ) {
-        // if (($(this).prop('checked') ==false) && $checkedActivity === dataDayAndTime ){
-        //   $($activities[i]).attr('disabled', true)
-        // } else {
-        //   $($activities[i]).attr('disabled', false)
-        // }
+        if (
+          $(this).prop("checked") == false &&
+          $checkedActivity === dataDayAndTime
+        ) {
+          $($activities[i]).attr("disabled", true);
+        } else {
+          $($activities[i]).attr("disabled", false);
+        }
       }
     }
 
