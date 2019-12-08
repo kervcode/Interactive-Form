@@ -101,10 +101,11 @@ $(function () {
 
   //listening for change in activities
   $activities.on("change", function (event) {
-    const clickedInput = $(event.target);
+    let clickedInput = $(event.target);
     let getDataCost = $(clickedInput).attr("data-cost");
-    getDataCost = getDataCost.slice(1, 4)
-    let getDataCostChecked = $(event.target).is(':checked')
+        getDataCost = getDataCost.slice(1, 4)
+    // let getDataCostChecked = $(event.target).is(':checked')
+    let getDataCostChecked = ($(this).prop('checked') ==true)
     let dataDayAndTime = $(clickedInput).attr("data-day-and-time")
 
     if ($(getDataCostChecked)) {
@@ -114,24 +115,18 @@ $(function () {
       conferencePrice = conferencePrice - parseInt(getDataCost);
     }
 
-    /*
-      //disable overlapsing time slot
-      for (let activity in $activities) {
-        // console.log($($activities[activity]).attr('data-day-and-time'))
-        if (dataDayAndTime === $($activities[activity]).attr('data-day-and-time')) {
-          console.log($($activities[activity]).attr('data-day-and-time'))
-        }
-      }
-  */
+    // check for conflicting activities
     for (let i = 0; i < $activities.length; i++) {
-      let checkedActivity = $($activities[i]).attr("data-day-and-time");
+      let $checkedActivity = $($activities[i]).attr("data-day-and-time");
+        if ((dataDayAndTime === $checkedActivity) && clickedInput !== $activities[i]){
 
-      if (dataDayAndTime === checkedActivity) {
-        if (!($($activities[i]).prop('checked'))) {
-          console.log(checkedActivity)
-          $($activities[i]).attr('disabled', true)
-        }
-      }
+
+            // if (($(this).prop('checked') ==false) && $checkedActivity === dataDayAndTime ){
+            //   $($activities[i]).attr('disabled', true)
+            // } else {
+            //   $($activities[i]).attr('disabled', false)
+            // }
+          }
     }
 
 
@@ -165,7 +160,15 @@ function basicInfo(){
 
 
 
-
+   /*
+      //disable overlapsing time slot
+      for (let activity in $activities) {
+        // console.log($($activities[activity]).attr('data-day-and-time'))
+        if (dataDayAndTime === $($activities[activity]).attr('data-day-and-time')) {
+          console.log($($activities[activity]).attr('data-day-and-time'))
+        }
+      }
+  */
 
     // const 
     // // getDataCost = getDataCost;
