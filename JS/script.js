@@ -90,9 +90,7 @@ $(function () {
   // console.log($activities);
   function createPriceField() {
     let paragraphField = "<p>Total: <span>" + conferencePrice + "</span></p>";
-
     $total.append(paragraphField)
-
   }
 
   // function removePriceField() {
