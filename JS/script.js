@@ -1,24 +1,23 @@
 $(function () {
   //GLOBAL VARAIBLES
-  const $title = $("#title");
-  const $input = $("#other-title");
-  const $selectDesign = $("#design");
-  const $design = $("#design option");
-  const $tshirtColor = $("#color");
-  const $tshirtOptions = $("#color option");
+  const $title = $("#title"),
+    $input = $("#other-title"),
+    $selectDesign = $("#design"),
+    $design = $("#design option"),
+    $tshirtOptions = $("#color option");
 
-  let $total = $(".activities");
-  const $checkboxes = $total.children().children(); //store all input checkboxes
-  let conferencePrice = 0;
-  /** ------------------Input Feild Section--------------------------
-   * set the focus on the first text field **/
+  let $checkboxInputs = $(".activities"), //store all input checkboxes
+    conferencePrice = 0,
+    totalActivityCost = $checkboxInputs.append('<p>Total: $0</p>'),
+    total = $('.activities p');
+  const $checkboxes = $checkboxInputs.children().children();
+  console.log(total);
+  /** Input Feild Section -- set the focus on the first text field **/
   $(window).on("load", () => {
     $("#name").focus();
-    manageTheme();
     // createPriceField()
   });
-  /** ------------------Job Role Section--------------------------
-   * set the focus on the first text field **/
+  /** Job Role Section: set the focus on the first text field **/
   //initially hide text field for input
   $input.hide();
 
@@ -32,34 +31,33 @@ $(function () {
       $input.slideUp(150);
     }
   });
-  /** ----------- T-Shirt Infor Section--------------------------
-   * set the focus on the first text field **/
+  /** T-Shirt Infor Section: set the focus on the first text field **/
   $design.eq(0).hide();
 
   // Hide all color themes
-  function manageTheme() {
-    $tshirtOptions.each(function (i, element) {
-      if (
-        $(element)
-        .eq(i)
-        .val() !== "cornflowerblue"
-      ) {
-        $(this)
-          // .eq(i) //returned undefined when left uncommented
-          .attr("disabled", true)
-          .attr("hidden", true);
-      } else {
-        $(this)
-          .before("<option>Please select a T-shirt theme</option>")
-          .attr("selected", "selected");
-        $("#color option:selected")
-          .removeAttr("selected")
-          .attr("hidden", true);
-      }
-    });
-  }
+  $tshirtOptions.each(function (i, element) {
+    if (
+      $(element)
+      .eq(i)
+      .val() !== "cornflowerblue"
+    ) {
+      $(this)
+        // .eq(i) //returned undefined when left uncommented
+        .attr("disabled", true)
+        .attr("hidden", true);
+    } else {
+      $(this)
+        .before("<option>Please select a T-shirt theme</option>")
+        .attr("selected", "selected");
+      $("#color option:selected")
+        .removeAttr("selected")
+        .attr("hidden", true);
+    }
+  });
 
-  // show appropriate color for selected theme
+
+  // show appropriate color
+  // for selected theme
   $selectDesign.on("change", function (event) {
     console.log($(event.target).val()); //can't call nodeName() - Why?
     $tshirtOptions.each(function (i, element) {
@@ -85,20 +83,7 @@ $(function () {
     });
   });
 
-  66
   // Register for activities section
-
-  //create field for the total field
-  // console.log($activities);
-  function createPriceField() {
-    let paragraphField = "<p>Total: <span>" + conferencePrice + "</span></p>";
-
-    $total.append(paragraphField);
-  }
-
-  // function removePriceField() {
-  //   $total.remove(`<p>Total: ${conferencePrice}</p>`);
-  // }
 
   //listening for change in activities
   $checkboxes.on("change", function (event) {
@@ -107,10 +92,16 @@ $(function () {
     let clickedTime = $(clicked).attr('data-day-and-time')
     clickedCost = clickedCost.slice(1, 4);
 
-    console.log(clicked)
-    console.log(clickedCost)
-    console.log(clickedTime)
-    // let getDataCostChecked = $(event.target).is(':checked')
+    // calculate the conference price
+    if ($(clicked).prop('checked')) {
+      conferencePrice += parseInt(clickedCost);
+    } else {
+      conferencePrice -= parseInt(clickedCost)
+    }
+    //append conference price to the page
+    total.val(total + ' $' + conferencePrice)
+    // console.log(conferencePriceDOM.last().text())
+    console.log(' $' + conferencePrice)
 
     for (let i = 0; i < $checkboxes.length; i++) {
       let checkboxTime = $($checkboxes[i]).attr('data-day-and-time');
@@ -121,10 +112,41 @@ $(function () {
           $($checkboxes[i]).attr('disabled', false);
         }
       }
-      console.log(checkboxTime)
+    }
+  });
+  // Form validation Section
+  const $payment = $('#payment');
+  const paymentOption = $payment.children();
+  const $creditCardInfo = $('#credit-card')
+
+
+  paymentOption.each(function (i, option) {
+    if (option.value === 'select method') {
+      $(option).attr('disabled', true).attr('hidden', true).removeAttr('selected', '');
+    }
+    if (option.value === 'Credit Card') {
+      $(option).attr('selected', 'selected');
     }
 
-    function basicInfo() {}
+  })
 
-  });
+  $payment.on('change', function (e) {
+    console.log(e.target.value);
+    if ((e.target.value === 'PayPal') || (e.target.value === 'Bitcoin')) {
+      $creditCardInfo.delay(150).slideUp();
+    } else if (e.target.value === 'Credit Card') {
+      $creditCardInfo.delay(150).slideDown();
+    }
+  })
+  console.log(paymentOption)
+
+  const nameInput = $('#name');
+  const emailInput = $('#mail');
+  const activityInput = $('.activities');
+  const creditCardNumber = $('#payment option[value = "Credit Card"]');
+  const zipCode = $('#zip');
+  const cvv = $('#cvv')
+
+  function isValidName() {}
+
 });
