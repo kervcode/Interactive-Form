@@ -99,7 +99,7 @@ $(function () {
       conferencePrice -= parseInt(clickedCost)
     }
     //append conference price to the page
-    total.val(total + ' $' + conferencePrice)
+    $(total).text('Total  $:' + conferencePrice);
     // console.log(conferencePriceDOM.last().text())
     console.log(' $' + conferencePrice)
 
