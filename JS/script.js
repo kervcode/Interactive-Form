@@ -124,16 +124,11 @@ $(function() {
   const creditCardNumber = $("#cc-num");
   const zipCode = $("#zip");
   const cvv = $("#cvv");
-  const submit = $('button');
+  const submit = $("button");
 
-  console.log(submit);
-  // console.log(email)
-  console.log(emailInput)
-  // console.log(creditCardNumber)
-
-  nameInput.on('input', function(){
+  nameInput.on("input", function() {
     // console.log($(nameInput).val())
-  })
+  });
 
   paymentOption.each(function(i, option) {
     if (option.value === "select method") {
@@ -158,46 +153,44 @@ $(function() {
   // console.log(nameInput);
 
   function isValidName(nameInput) {
-    return /^[a-z]+$/.test(nameInput);
+    return /^[a-zA-Z]{2,25}$/.test(nameInput);
   }
-
 
   function isValidEmail(email) {
     return /^[^@]+@[^@]+\.[a-z]+$/i.test(email);
   }
 
-
-
   function formatCreditCard(creditCardNumber) {
-    return ;
+    return;
   }
 
-  // check if empty
+  // at least one activity is selected
+  $(".activities input").addClass("rouge");
+  console.log($(".activities input:checkbox:checked").length);
+  function isSelected() {
+    let checkboxActivities = $(".activities input");
+    if ($(".activities input:checkbox:checked").length < 1) {
+      $(".activities legend").before(
+        "<span>Please select an activity or more</span>"
+      );
+    } else {
+    }
+  }
+
   function isEmpty(field) {
-      if($(field).val() === ''){
-        return $(field).attr('placeholder',  'This field cannot be left empty');
-      }
+    if ($(field).val() === "") {
+      return $(field)
+        .attr("placeholder", "This field cannot be left empty")
+        .addClass("rouge");
+    }
   }
 
-  submit.on('click', function(e){
+  submit.on("click", function(e) {
     e.preventDefault();
-
-    // if($(emailInput).val() === '') {
-    //     $(emailInput).attr('placeholder', 'Email cannot be empty');
-    // }
-    // if($(nameInput).val() === '') {
-    //   $(nameInput).attr('placeholder', 'Name cannot be empty');
-    // }
-
-    // if($(creditCardNumber).val() === '') {
-    //   $(creditCardNumber).attr('placeholder', 'this field cannot be empty');
-    // } 
-isEmpty(nameInput)
-    isEmpty(emailInput)
-    isEmpty(creditCardNumber)
-  
-
-
-  })
-  
+    isEmpty(nameInput);
+    isEmpty(emailInput);
+    isEmpty(creditCardNumber);
+    isSelected();
+    console.log(isValidName($(nameInput).val()));
+  });
 });
