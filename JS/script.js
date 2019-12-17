@@ -116,13 +116,24 @@ $(function() {
   const form = $("form");
   const payment = $("#payment");
   const paymentOption = payment.children();
-  const creditCardInfo = $("#credit-card");
+  // const creditCardInfo = $("#credit-card");
   const nameInput = $("#name");
+  // const email = $("#mail").val();
   const emailInput = $("#mail");
   const activityInput = $(".activities");
   const creditCardNumber = $("#cc-num");
   const zipCode = $("#zip");
   const cvv = $("#cvv");
+  const submit = $('button');
+
+  console.log(submit);
+  // console.log(email)
+  console.log(emailInput)
+  // console.log(creditCardNumber)
+
+  nameInput.on('input', function(){
+    // console.log($(nameInput).val())
+  })
 
   paymentOption.each(function(i, option) {
     if (option.value === "select method") {
@@ -150,32 +161,43 @@ $(function() {
     return /^[a-z]+$/.test(nameInput);
   }
 
-  function isValidEmail(emailInput) {
-    return /^[^@]+@[^@]+\.[a-z]+$/i.test(emailInput);
+
+  function isValidEmail(email) {
+    return /^[^@]+@[^@]+\.[a-z]+$/i.test(email);
   }
+
+
 
   function formatCreditCard(creditCardNumber) {
-    return;
+    return ;
   }
 
-  // function showOrHideTip(show, element) {
-  //   // show element when show is true, hide when false
-  //   if (show) {
-  //     element.style.display = "inherit";
-  //   } else {
-  //     element.style.display = "none";
-  //   }
-  // }
-
-  function createListener(validator) {
-    return e => {
-      const text = e.target.value;
-      const valid = validator(text);
-      const showTip = text !== "" && !valid;
-      const tooltip = e.target.nextElementSibling;
-      showOrHideTip(showTip, tooltip);
-    };
+  // check if empty
+  function isEmpty(field) {
+      if($(field).val() === ''){
+        return $(field).attr('placeholder',  'This field cannot be left empty');
+      }
   }
 
-  $(nameInput).on("input", createListener(isValidName));
+  submit.on('click', function(e){
+    e.preventDefault();
+
+    // if($(emailInput).val() === '') {
+    //     $(emailInput).attr('placeholder', 'Email cannot be empty');
+    // }
+    // if($(nameInput).val() === '') {
+    //   $(nameInput).attr('placeholder', 'Name cannot be empty');
+    // }
+
+    // if($(creditCardNumber).val() === '') {
+    //   $(creditCardNumber).attr('placeholder', 'this field cannot be empty');
+    // } 
+isEmpty(nameInput)
+    isEmpty(emailInput)
+    isEmpty(creditCardNumber)
+  
+
+
+  })
+  
 });
