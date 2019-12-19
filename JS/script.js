@@ -4,7 +4,9 @@ $(function() {
     $input = $("#other-title"),
     $selectDesign = $("#design"),
     $design = $("#design option"),
-    $tshirtOptions = $("#color option");
+    $tshirtOptions = $("#color option"),
+    paypal = $("#paypal"),
+    bitcoin = $("#bitcoin");
 
   let $checkboxInputs = $(".activities"), //store all input checkboxes
     conferencePrice = 0,
@@ -19,6 +21,8 @@ $(function() {
   /** Job Role Section: set the focus on the first text field **/
   //initially hide text field for input
   $input.hide();
+  paypal.hide();
+  bitcoin.hide();
 
   // reveal a text field when other option is selected in job role field
   $title.on("change", function() {
@@ -116,7 +120,7 @@ $(function() {
   const form = $("form");
   const payment = $("#payment");
   const paymentOption = payment.children();
-  // const creditCardInfo = $("#credit-card");
+  const creditCardInfo = $("#credit-card");
   const nameInput = $("#name");
   // const email = $("#mail").val();
   const emailInput = $("#mail");
@@ -144,10 +148,18 @@ $(function() {
 
   payment.on("change", function(e) {
     console.log(e.target.value);
-    if (e.target.value === "PayPal" || e.target.value === "Bitcoin") {
-      creditCardInfo.delay(150).slideUp();
-    } else if (e.target.value === "Credit Card") {
+    if (e.target.value === "Credit Card") {
+      bitcoin.delay(100).slideUp();
+      paypal.delay(100).slideUp();
       creditCardInfo.delay(150).slideDown();
+    } else if (e.target.value === "PayPal") {
+      creditCardInfo.delay(100).slideUp();
+      bitcoin.delay(100).slideUp();
+      paypal.delay(150).slideDown();
+    } else if (e.target.value === "Bitcoin") {
+      creditCardInfo.delay(100).slideUp();
+      paypal.delay(100).slideUp();
+      bitcoin.delay(150).slideDown();
     }
   });
   // console.log(nameInput);
@@ -180,7 +192,7 @@ $(function() {
   function isEmpty(field) {
     if ($(field).val() === "") {
       return $(field)
-        .attr("placeholder", "This field cannot be left empty")
+        .attr("placeholder", "Required")
         .addClass("rouge");
     }
   }
@@ -190,6 +202,8 @@ $(function() {
     isEmpty(nameInput);
     isEmpty(emailInput);
     isEmpty(creditCardNumber);
+    isEmpty(zipCode);
+    isEmpty(cvv);
     isSelected();
     console.log(isValidName($(nameInput).val()));
   });
