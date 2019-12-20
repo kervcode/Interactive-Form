@@ -128,7 +128,22 @@ option {
 }
 
 .rouge {
-	border: 3px solid #ff0000;
+	border: 2px solid #ff0000;
+}
+
+.activities legend {
+	margin-bottom: 1em;
+}
+
+.activities p {
+	font-weight: bold;
+	font-size: 1.25em;
+	margin-top: 0;
+}
+
+.checkboxEmpty {
+	margin-bottom: 1.125em;
+	color: #ff0000;
 }
 
 /* ================================= 

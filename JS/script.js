@@ -101,7 +101,7 @@ $(function() {
       conferencePrice -= parseInt(clickedCost);
     }
     //append conference price to the page
-    $(total).text("Total  $:" + conferencePrice);
+    $(total).text("Total:  $" + conferencePrice);
     // console.log(conferencePriceDOM.last().text())
     console.log(" $" + conferencePrice);
 
@@ -122,17 +122,13 @@ $(function() {
   const paymentOption = payment.children();
   const creditCardInfo = $("#credit-card");
   const nameInput = $("#name");
-  // const email = $("#mail").val();
-  const emailInput = $("#mail");
+  const email = $("#mail");
+  // const emailInput = $("#mail");
   const activityInput = $(".activities");
   const creditCardNumber = $("#cc-num");
   const zipCode = $("#zip");
   const cvv = $("#cvv");
   const submit = $("button");
-
-  nameInput.on("input", function() {
-    // console.log($(nameInput).val())
-  });
 
   paymentOption.each(function(i, option) {
     if (option.value === "select method") {
@@ -162,32 +158,6 @@ $(function() {
       bitcoin.delay(150).slideDown();
     }
   });
-  // console.log(nameInput);
-
-  function isValidName(nameInput) {
-    return /^[a-zA-Z]{2,25}$/.test(nameInput);
-  }
-
-  function isValidEmail(email) {
-    return /^[^@]+@[^@]+\.[a-z]+$/i.test(email);
-  }
-
-  function formatCreditCard(creditCardNumber) {
-    return;
-  }
-
-  // at least one activity is selected
-  $(".activities input").addClass("rouge");
-  console.log($(".activities input:checkbox:checked").length);
-  function isSelected() {
-    let checkboxActivities = $(".activities input");
-    if ($(".activities input:checkbox:checked").length < 1) {
-      $(".activities legend").before(
-        "<span>Please select an activity or more</span>"
-      );
-    } else {
-    }
-  }
 
   function isEmpty(field) {
     if ($(field).val() === "") {
@@ -197,14 +167,74 @@ $(function() {
     }
   }
 
+  // function isValidEmail(email) {
+  //   return /^[^@]+@[^@]+\.[a-z]+$/i.test(email);
+  // }
+  // console.log(isValidEmail)
+
+  // function formatCreditCard(creditCardNumber) {
+  //   return ;
+  // }
+
+  // at least one activity is selected
+  $(".activities input").addClass("rouge");
+  function isSelected() {
+    // let checkboxActivities = $(".activities input");
+    $(".checkboxEmpty").remove();
+    if ($(".activities input:checkbox:checked").length < 1) {
+      $(".activities legend").after(
+        "<p class='checkboxEmpty'>Please select an activity or more<p>"
+      );
+    } else {
+      $(".checkboxEmpty").remove();
+    }
+  }
+
+  function isValidName(name) {
+    let nameRegex = /^[a-zA-Z]{2,25}$/;
+    return nameRegex.test(name);
+  }
+
+  function isValidEmail(email) {
+    let emailRegex = /^[^@]+@[^@]+\.[a-z]+$/i;
+    return emailRegex.test(email);
+  }
+
+  function isValidCC(cc) {
+    let visaCard = /^4[0–9]{12}(?:[0–9]{3})?$/,
+      masterCard = /^(?:5[1–5][0–9]{2}|222[1–9]|22[3–9][0–9]|2[3–6][0–9]{2}|27[01][0–9]|2720)[0–9]{12}$/;
+    if (visaCard.test(cc)) {
+      return cc;
+    } else if (masterCard.test(cc)) {
+      return cc;
+    }
+  }
+
+  console.log(isValidCC(5129925569513099));
+
   submit.on("click", function(e) {
     e.preventDefault();
-    isEmpty(nameInput);
-    isEmpty(emailInput);
-    isEmpty(creditCardNumber);
-    isEmpty(zipCode);
-    isEmpty(cvv);
+
+    if (!isValidName($(nameInput).val())) {
+      $(nameInput)
+        .focus()
+        .addClass("rouge")
+        .attr("placeholder", "Name is required");
+    } else {
+      $(nameInput).removeClass("rouge");
+    }
+
+    if (!isValidEmail($(email).val())) {
+      $(email)
+        .attr("placeholder", "This email address is not valid")
+        .addClass("rouge");
+      if (isValidName($(nameInput).val())) {
+        $(email).focus();
+      }
+    } else {
+      $(email).removeClass("rouge");
+    }
     isSelected();
-    console.log(isValidName($(nameInput).val()));
+    // console.log(isValidName($(nameInput).val()));
   });
 });
