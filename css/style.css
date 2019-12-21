@@ -138,12 +138,18 @@ option {
 .activities p {
 	font-weight: bold;
 	font-size: 1.25em;
-	margin-top: 0;
+	margin: 1em 0 0.4em 0;
 }
 
 .checkboxEmpty {
 	margin-bottom: 1.125em;
 	color: #ff0000;
+}
+
+#fltRight {
+	float: right;
+	color: #000;
+	font-size: 1.75em;
 }
 
 /* ================================= 

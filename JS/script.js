@@ -10,7 +10,7 @@ $(function() {
 
   let $checkboxInputs = $(".activities"), //store all input checkboxes
     conferencePrice = 0,
-    totalActivityCost = $checkboxInputs.append("<p>Total: $0</p>"),
+    totalActivityCost = $checkboxInputs.append("<p id='fltRight'>Total: $0</p>"),
     total = $(".activities p");
   const $checkboxes = $checkboxInputs.children().children();
   /** Input Feild Section -- set the focus on the first text field **/
@@ -130,6 +130,12 @@ $(function() {
   const cvv = $("#cvv");
   const submit = $("button");
 
+
+// payment.on('change', function(){
+//   if($('#payment option').eq(1).prop('selected') === true){
+//     console.log('selected')
+//   }
+// })
   paymentOption.each(function(i, option) {
     if (option.value === "select method") {
       $(option)
@@ -191,7 +197,7 @@ $(function() {
   }
 
   function isValidName(name) {
-    let nameRegex = /^[a-zA-Z]{2,25}$/;
+    let nameRegex = /^([a-zA-Z0-9]+|[a-zA-Z0-9]+\s{1}[a-zA-Z0-9]{1,}|[a-zA-Z0-9]+\s{1}[a-zA-Z0-9]{3,}\s{1}[a-zA-Z0-9]{1,})$/;
     return nameRegex.test(name);
   }
 
@@ -201,40 +207,64 @@ $(function() {
   }
 
   function isValidCC(cc) {
-    let visaCard = /^4[0–9]{12}(?:[0–9]{3})?$/,
-      masterCard = /^(?:5[1–5][0–9]{2}|222[1–9]|22[3–9][0–9]|2[3–6][0–9]{2}|27[01][0–9]|2720)[0–9]{12}$/;
-    if (visaCard.test(cc)) {
-      return cc;
-    } else if (masterCard.test(cc)) {
-      return cc;
-    }
+    let creditCard = /^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/;
+    return creditCard.test(cc);
   }
 
-  console.log(isValidCC(5129925569513099));
+  function isZipCodeValid(zc){
+    const zip = /(^\d{5}$)|(^\d{5}-\d{4}$)/;
+    return zip.test(zc);
+  }
+
+
+  //zip code
+  zipCode.on('focus', function(){
+    zipCode.attr('maxlength', 5).numeric()
+  })
+
+  //CVV length
+  cvv.on('focus', function(){
+    cvv.attr('maxlength', 3)
+  })
+
+  console.log(isValidCC(5129925569513093));
 
   submit.on("click", function(e) {
     e.preventDefault();
 
     if (!isValidName($(nameInput).val())) {
       $(nameInput)
-        .focus()
         .addClass("rouge")
         .attr("placeholder", "Name is required");
     } else {
       $(nameInput).removeClass("rouge");
+      $(nameInput).val('');
     }
 
     if (!isValidEmail($(email).val())) {
       $(email)
         .attr("placeholder", "This email address is not valid")
         .addClass("rouge");
-      if (isValidName($(nameInput).val())) {
-        $(email).focus();
-      }
+      // if (isValidName($(nameInput).val())) {
+      //   $(email).focus();
+      // }
     } else {
       $(email).removeClass("rouge");
+      $(email).val('');
     }
     isSelected();
+
+    //credit card
+    if($('#payment option').eq(1).prop('selected') === true){
+      console.log('selected')
+
+      if(!isValidCC($(creditCardNumber).val())){
+        $(creditCardNumber).attr("placeholder", "This credit is not valid").addClass('rouge')
+      } else {
+        $(creditCardNumber).val('').removeClass('rouge')
+      }
+    }
+
     // console.log(isValidName($(nameInput).val()));
   });
 });
