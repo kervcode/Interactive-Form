@@ -10,7 +10,9 @@ $(function() {
 
   let $checkboxInputs = $(".activities"), //store all input checkboxes
     conferencePrice = 0,
-    totalActivityCost = $checkboxInputs.append("<p id='fltRight'>Total: $0</p>"),
+    totalActivityCost = $checkboxInputs.append(
+      "<p id='fltRight'>Total: $0</p>"
+    ),
     total = $(".activities p");
   const $checkboxes = $checkboxInputs.children().children();
   /** Input Feild Section -- set the focus on the first text field **/
@@ -130,12 +132,11 @@ $(function() {
   const cvv = $("#cvv");
   const submit = $("button");
 
-
-// payment.on('change', function(){
-//   if($('#payment option').eq(1).prop('selected') === true){
-//     console.log('selected')
-//   }
-// })
+  // payment.on('change', function(){
+  //   if($('#payment option').eq(1).prop('selected') === true){
+  //     console.log('selected')
+  //   }
+  // })
   paymentOption.each(function(i, option) {
     if (option.value === "select method") {
       $(option)
@@ -211,21 +212,39 @@ $(function() {
     return creditCard.test(cc);
   }
 
-  function isZipCodeValid(zc){
+  function isZipCodeValid(zc) {
     const zip = /(^\d{5}$)|(^\d{5}-\d{4}$)/;
     return zip.test(zc);
   }
-
+  function isValidCVV(field) {
+    const cardCVV = /[0-9]{3}/;
+    return cardCVV.test(field);
+  }
 
   //zip code
-  zipCode.on('focus', function(){
-    zipCode.attr('maxlength', 5).numeric()
-  })
+  zipCode.on("focus", function() {
+    zipCode.attr("maxlength", 5);
+    zipCode.keyup(function() {
+      this.value = this.value.replace(/[^0-9\.]/g, "");
+    });
+  });
 
+  creditCardNumber.keyup(function() {
+    this.value = this.value.replace(/[^0-9\.]/g, "");
+  });
   //CVV length
-  cvv.on('focus', function(){
-    cvv.attr('maxlength', 3)
-  })
+  cvv.on("focus", function(e) {
+    cvv.attr("maxlength", 3);
+    cvv.keyup(function() {
+      this.value = this.value.replace(/[^0-9\.]/g, "");
+    });
+  });
+
+  // function numbersOnly(field) {
+  //   field.keyup(function() {
+  //     this.value = this.value.replace(/[^0-9\.]/g, "");
+  //   });
+  // }
 
   console.log(isValidCC(5129925569513093));
 
@@ -238,7 +257,7 @@ $(function() {
         .attr("placeholder", "Name is required");
     } else {
       $(nameInput).removeClass("rouge");
-      $(nameInput).val('');
+      $(nameInput).val("");
     }
 
     if (!isValidEmail($(email).val())) {
@@ -250,18 +269,52 @@ $(function() {
       // }
     } else {
       $(email).removeClass("rouge");
-      $(email).val('');
+      $(email).val("");
     }
     isSelected();
 
     //credit card
-    if($('#payment option').eq(1).prop('selected') === true){
-      console.log('selected')
+    if (
+      $("#payment option")
+        .eq(1)
+        .prop("selected") === true
+    ) {
+      console.log("selected");
 
-      if(!isValidCC($(creditCardNumber).val())){
-        $(creditCardNumber).attr("placeholder", "This credit is not valid").addClass('rouge')
+      if (!isValidCC($(creditCardNumber).val())) {
+        $(creditCardNumber)
+          .attr("placeholder", "This credit is not valid")
+          .addClass("rouge");
       } else {
-        $(creditCardNumber).val('').removeClass('rouge')
+        $(creditCardNumber)
+          .val("")
+          .removeClass("rouge");
+      }
+
+      if (!isZipCodeValid($(zipCode).val())) {
+        zipCode.attr("placeholder", "Required").addClass("rouge");
+      } else {
+        zipCode.removeClass("rouge").val("");
+      }
+
+      if (!isValidCVV($(cvv).val())) {
+        cvv.attr("placeholder", "Required").addClass("rouge");
+      } else {
+        cvv.removeClass("rouge").val("");
+      }
+
+      if (
+        isValidName($(nameInput).val()) &&
+        isValidCVV($(cvv).val()) &&
+        isZipCodeValid($(zipCode).val()) &&
+        isValidCC($(creditCardNumber).val()) &&
+        isValidEmail($(email).val())
+      ) {
+        $(nameInput).val("");
+        email.val("");
+        zipCode.val("");
+        creditCardNumber.val("");
+        email.val("");
       }
     }
 
