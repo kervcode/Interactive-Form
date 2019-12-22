@@ -16,12 +16,13 @@ $(function() {
     total = $(".activities p");
   const $checkboxes = $checkboxInputs.children().children();
   /** Input Feild Section -- set the focus on the first text field **/
-  $(window).on("load", () => {
-    $("#name").focus();
-    // createPriceField()
-  });
+  $("#name").focus();
+  // $(window).on("load", () => {
+  //   // createPriceField()
+  // });
   /** Job Role Section: set the focus on the first text field **/
   //initially hide text field for input
+
   $input.hide();
   paypal.hide();
   bitcoin.hide();
@@ -249,9 +250,8 @@ $(function() {
   console.log(isValidCC(5129925569513093));
 
   submit.on("click", function(e) {
-    e.preventDefault();
-
     if (!isValidName($(nameInput).val())) {
+      e.preventDefault();
       $(nameInput)
         .addClass("rouge")
         .attr("placeholder", "Name is required");
@@ -261,6 +261,7 @@ $(function() {
     }
 
     if (!isValidEmail($(email).val())) {
+      e.preventDefault();
       $(email)
         .attr("placeholder", "This email address is not valid")
         .addClass("rouge");
@@ -282,40 +283,43 @@ $(function() {
       console.log("selected");
 
       if (!isValidCC($(creditCardNumber).val())) {
+        e.preventDefault();
         $(creditCardNumber)
           .attr("placeholder", "This credit is not valid")
           .addClass("rouge");
       } else {
-        $(creditCardNumber)
-          .val("")
-          .removeClass("rouge");
+        $(creditCardNumber).removeClass("rouge");
       }
 
       if (!isZipCodeValid($(zipCode).val())) {
+        e.preventDefault();
         zipCode.attr("placeholder", "Required").addClass("rouge");
       } else {
-        zipCode.removeClass("rouge").val("");
+        zipCode.removeClass("rouge");
       }
 
       if (!isValidCVV($(cvv).val())) {
+        e.preventDefault();
         cvv.attr("placeholder", "Required").addClass("rouge");
       } else {
-        cvv.removeClass("rouge").val("");
+        cvv.removeClass("rouge");
       }
 
-      if (
-        isValidName($(nameInput).val()) &&
-        isValidCVV($(cvv).val()) &&
-        isZipCodeValid($(zipCode).val()) &&
-        isValidCC($(creditCardNumber).val()) &&
-        isValidEmail($(email).val())
-      ) {
-        $(nameInput).val("");
-        email.val("");
-        zipCode.val("");
-        creditCardNumber.val("");
-        email.val("");
-      }
+      // if (
+      //   isValidName($(nameInput).val()) &&
+      //   isValidCVV($(cvv).val()) &&
+      //   isZipCodeValid($(zipCode).val()) &&
+      //   isValidCC($(creditCardNumber).val()) &&
+      //   isValidEmail($(email).val())
+      // ) {
+      //   $(nameInput).val("");
+      //   email.val("");
+      //   zipCode.val("");
+      //   creditCardNumber.val("");
+      //   email.val("");
+
+      //   alert("Success");
+      // }
     }
 
     // console.log(isValidName($(nameInput).val()));
