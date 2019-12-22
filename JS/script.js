@@ -231,6 +231,7 @@ $(function() {
   });
 
   creditCardNumber.keyup(function() {
+    zipCode.attr("").attr("maxlength", 16);
     this.value = this.value.replace(/[^0-9\.]/g, "");
   });
   //CVV length
