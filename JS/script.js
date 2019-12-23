@@ -17,9 +17,6 @@ $(function() {
   const $checkboxes = $checkboxInputs.children().children();
   /** Input Feild Section -- set the focus on the first text field **/
   $("#name").focus();
-  // $(window).on("load", () => {
-  //   // createPriceField()
-  // });
   /** Job Role Section: set the focus on the first text field **/
   //initially hide text field for input
 
@@ -64,29 +61,45 @@ $(function() {
   // show appropriate color
   // for selected theme
   $selectDesign.on("change", function(event) {
-    console.log($(event.target).val()); //can't call nodeName() - Why?
+    console.log($(event.target).val()); //can't call nodeName
     $tshirtOptions.each(function(i, element) {
-      if ($(event.target).val() === "js puns") {
-        $tshirtOptions
-          .slice(0, 3)
-          .removeAttr("hidden")
-          .removeAttr("disabled");
-        $tshirtOptions
-          .slice(3, 6)
-          .attr("hidden", true)
-          .attr("disabled", true);
-      } else if ($(event.target).val() === "heart js") {
-        $tshirtOptions
-          .slice(3, 6)
-          .removeAttr("hidden")
-          .removeAttr("disabled");
-        $tshirtOptions
-          .slice(0, 3)
-          .attr("disabled", true)
-          .attr("hidden", true);
-      }
+      $tshirtOptions.removeAttr("selected");
+      $("#color option")
+        .eq(0)
+        .removeAttr("selected")
+        .attr("selected", "selected");
     });
+    if ($(event.target).val() === "js puns") {
+      $("#color option")
+        .eq(0)
+        .attr("hidden", true);
+      $tshirtOptions
+        .slice(0, 3)
+        .removeAttr("hidden")
+        .removeAttr("disabled")
+        .removeAttr("selected");
+      $tshirtOptions
+        .slice(3, 6)
+        .attr("hidden", true)
+        .attr("disabled", true);
+      $tshirtOptions.eq(0).removeAttr("selected");
+    } else if ($(event.target).val() === "heart js") {
+      $("#color option")
+        .eq(0)
+        .attr("hidden", true);
+      $tshirtOptions
+        .slice(3, 6)
+        .removeAttr("hidden")
+        .removeAttr("disabled")
+        .removeAttr("selected");
+      $tshirtOptions
+        .slice(0, 3)
+        .attr("disabled", true)
+        .attr("hidden", true);
+      $tshirtOptions.eq(0).removeAttr("selected");
+    }
   });
+  // });
 
   // Register for activities section
 
@@ -133,11 +146,6 @@ $(function() {
   const cvv = $("#cvv");
   const submit = $("button");
 
-  // payment.on('change', function(){
-  //   if($('#payment option').eq(1).prop('selected') === true){
-  //     console.log('selected')
-  //   }
-  // })
   paymentOption.each(function(i, option) {
     if (option.value === "select method") {
       $(option)
@@ -175,29 +183,6 @@ $(function() {
     }
   }
 
-  // function isValidEmail(email) {
-  //   return /^[^@]+@[^@]+\.[a-z]+$/i.test(email);
-  // }
-  // console.log(isValidEmail)
-
-  // function formatCreditCard(creditCardNumber) {
-  //   return ;
-  // }
-
-  // at least one activity is selected
-  $(".activities input").addClass("rouge");
-  function isSelected() {
-    // let checkboxActivities = $(".activities input");
-    $(".checkboxEmpty").remove();
-    if ($(".activities input:checkbox:checked").length < 1) {
-      $(".activities legend").after(
-        "<p class='checkboxEmpty'>Please select an activity or more<p>"
-      );
-    } else {
-      $(".checkboxEmpty").remove();
-    }
-  }
-
   function isValidName(name) {
     let nameRegex = /^([a-zA-Z0-9]+|[a-zA-Z0-9]+\s{1}[a-zA-Z0-9]{1,}|[a-zA-Z0-9]+\s{1}[a-zA-Z0-9]{3,}\s{1}[a-zA-Z0-9]{1,})$/;
     return nameRegex.test(name);
@@ -231,7 +216,7 @@ $(function() {
   });
 
   creditCardNumber.keyup(function() {
-    zipCode.attr("").attr("maxlength", 16);
+    zipCode.attr("maxlength", 16);
     this.value = this.value.replace(/[^0-9\.]/g, "");
   });
   //CVV length
@@ -242,12 +227,6 @@ $(function() {
     });
   });
 
-  // function numbersOnly(field) {
-  //   field.keyup(function() {
-  //     this.value = this.value.replace(/[^0-9\.]/g, "");
-  //   });
-  // }
-
   console.log(isValidCC(5129925569513093));
 
   submit.on("click", function(e) {
@@ -255,25 +234,29 @@ $(function() {
       e.preventDefault();
       $(nameInput)
         .addClass("rouge")
-        .attr("placeholder", "Name is required");
+        .attr("placeholder", "Name is required.");
     } else {
       $(nameInput).removeClass("rouge");
-      $(nameInput).val("");
     }
 
     if (!isValidEmail($(email).val())) {
       e.preventDefault();
       $(email)
-        .attr("placeholder", "This email address is not valid")
+        .attr("placeholder", "This email address is not valid.")
         .addClass("rouge");
-      // if (isValidName($(nameInput).val())) {
-      //   $(email).focus();
-      // }
     } else {
       $(email).removeClass("rouge");
-      $(email).val("");
     }
-    isSelected();
+
+    if ($(".activities input:checkbox:checked").length < 1) {
+      e.preventDefault();
+      $(".checkboxEmpty").remove();
+      $(".activities legend").after(
+        "<p class='checkboxEmpty'>Please select an activity or more.<p>"
+      );
+    } else {
+      $(".checkboxEmpty").remove();
+    }
 
     //credit card
     if (
@@ -285,8 +268,9 @@ $(function() {
 
       if (!isValidCC($(creditCardNumber).val())) {
         e.preventDefault();
+
         $(creditCardNumber)
-          .attr("placeholder", "This credit is not valid")
+          .attr("placeholder", "This credit is not valid.")
           .addClass("rouge");
       } else {
         $(creditCardNumber).removeClass("rouge");
@@ -294,35 +278,16 @@ $(function() {
 
       if (!isZipCodeValid($(zipCode).val())) {
         e.preventDefault();
-        zipCode.attr("placeholder", "Required").addClass("rouge");
+        zipCode.attr("placeholder", "Required.").addClass("rouge");
       } else {
         zipCode.removeClass("rouge");
       }
-
       if (!isValidCVV($(cvv).val())) {
         e.preventDefault();
-        cvv.attr("placeholder", "Required").addClass("rouge");
+        cvv.attr("placeholder", "Required.").addClass("rouge");
       } else {
         cvv.removeClass("rouge");
       }
-
-      // if (
-      //   isValidName($(nameInput).val()) &&
-      //   isValidCVV($(cvv).val()) &&
-      //   isZipCodeValid($(zipCode).val()) &&
-      //   isValidCC($(creditCardNumber).val()) &&
-      //   isValidEmail($(email).val())
-      // ) {
-      //   $(nameInput).val("");
-      //   email.val("");
-      //   zipCode.val("");
-      //   creditCardNumber.val("");
-      //   email.val("");
-
-      //   alert("Success");
-      // }
     }
-
-    // console.log(isValidName($(nameInput).val()));
   });
 });
