@@ -17,7 +17,6 @@ $(function() {
     zipCode = $("#zip"),
     cvv = $("#cvv"),
     submit = $("button");
-
   let $checkboxInputs = $(".activities"), //store all input checkboxes
     conferencePrice = 0,
     totalActivityCost = $checkboxInputs.append(
@@ -29,11 +28,9 @@ $(function() {
   $("#name").focus();
   /** Job Role Section: set the focus on the first text field **/
   //initially hide text field for input
-
   $input.hide();
   paypal.hide();
   bitcoin.hide();
-
   // reveal a text field when other option is selected in job role field
   $title.on("change", function() {
     //why this does not work with arrow function
@@ -46,7 +43,6 @@ $(function() {
   });
   /** T-Shirt Infor Section: set the focus on the first text field **/
   $design.eq(0).hide();
-
   // Hide all color themes
   $tshirtOptions.each(function(i, element) {
     if (
@@ -67,7 +63,6 @@ $(function() {
         .attr("hidden", true);
     }
   });
-
   // show appropriate color
   // for selected theme
   $selectDesign.on("change", function(event) {
@@ -110,14 +105,12 @@ $(function() {
     }
   });
   // Register for activities section
-
   //listening for change in activities
   $checkboxes.on("change", function(event) {
     let clicked = event.target;
     let clickedCost = $(clicked).attr("data-cost");
     let clickedTime = $(clicked).attr("data-day-and-time");
     clickedCost = clickedCost.slice(1, 4);
-
     // calculate the conference price
     if ($(clicked).prop("checked")) {
       conferencePrice += parseInt(clickedCost);
@@ -126,9 +119,6 @@ $(function() {
     }
     //append conference price to the page
     $(total).text("Total:  $" + conferencePrice);
-    // console.log(conferencePriceDOM.last().text())
-    console.log(" $" + conferencePrice);
-
     for (let i = 0; i < $checkboxes.length; i++) {
       let checkboxTime = $($checkboxes[i]).attr("data-day-and-time");
       if (clickedTime === checkboxTime && clicked !== $checkboxes[i]) {
@@ -140,7 +130,6 @@ $(function() {
       }
     }
   });
-
   paymentOption.each(function(i, option) {
     if (option.value === "select method") {
       $(option)
@@ -152,7 +141,6 @@ $(function() {
       $(option).attr("selected", "selected");
     }
   });
-
   payment.on("change", function(e) {
     console.log(e.target.value);
     if (e.target.value === "Credit Card") {
@@ -163,10 +151,16 @@ $(function() {
       creditCardInfo.delay(100).slideUp();
       bitcoin.delay(100).slideUp();
       paypal.delay(150).slideDown();
+      creditCardNumber.removeClass('rouge');
+      zipCode.removeClass('rouge');
+      cvv.removeClass('rouge');
     } else if (e.target.value === "Bitcoin") {
       creditCardInfo.delay(100).slideUp();
       paypal.delay(100).slideUp();
       bitcoin.delay(150).slideDown();
+      creditCardNumber.removeClass('rouge');
+      zipCode.removeClass('rouge');
+      cvv.removeClass('rouge');
     }
   });
   // Use regular expression to check if name field is valid
@@ -180,6 +174,7 @@ $(function() {
     return emailRegex.test(email);
   }
   //Use regular expression to check if credit card field is valid
+  // regex source for credit card: https://stackoverflow.com/questions/9315647/regex-credit-card-number-tests
   function isValidCC(cc) {
     let creditCard = /^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/;
     return creditCard.test(cc);
@@ -194,7 +189,6 @@ $(function() {
     const cardCVV = /[0-9]{3}/;
     return cardCVV.test(field);
   }
-
   //Assured that zip code is no more that 5 characters
   zipCode.on("focus", function() {
     zipCode.attr("maxlength", 5);
@@ -203,21 +197,21 @@ $(function() {
       this.value = this.value.replace(/[^\d]/g, "");
     });
   });
-  // check that credit card field accept only numeric characters and is no more that 16 characters.
+  // checked that credit card field accept only numeric characters and is no more that 16 characters.
   creditCardNumber.keyup(function() {
     creditCardNumber.attr("maxlength", 16);
     this.value = this.value.replace(/[^\d]/g, "");
   });
-  //CVV length
+  //checked that CVV length is no more than 3 characters and also only accept numbers
   cvv.on("focus", function(e) {
     cvv.attr("maxlength", 3);
     cvv.keyup(function() {
       this.value = this.value.replace(/[^\d]/g, "");
     });
   });
-
-  console.log(isValidCC(5129925569513093));
-
+  // code below check that the form is not submitted if any of field does not meet their requirements
+  //add a class 'rouge' that add a red border when the requirement is not met.
+  //remove the class 'rouge' when the requirement is met.
   submit.on("click", function(e) {
     if (!isValidName($(nameInput).val())) {
       e.preventDefault();
@@ -227,7 +221,6 @@ $(function() {
     } else {
       $(nameInput).removeClass("rouge");
     }
-
     if (!isValidEmail($(email).val())) {
       e.preventDefault();
       $(email)
@@ -236,7 +229,7 @@ $(function() {
     } else {
       $(email).removeClass("rouge");
     }
-
+    //assured that at least on of the checkbox is selected before the form can be submitted
     if ($(".activities input:checkbox:checked").length < 1) {
       e.preventDefault();
       $(".checkboxEmpty").remove();
@@ -246,24 +239,19 @@ $(function() {
     } else {
       $(".checkboxEmpty").remove();
     }
-
-    //credit card
     if (
       $("#payment option")
         .eq(1)
         .prop("selected") === true
     ) {
-      console.log("selected");
-
       if (!isValidCC($(creditCardNumber).val())) {
         e.preventDefault();
         $(creditCardNumber)
-          .attr("placeholder", "This credit is not valid.")
+          .attr("placeholder", "This credit card is not valid.")
           .addClass("rouge");
       } else {
         $(creditCardNumber).removeClass("rouge");
       }
-
       if (!isZipCodeValid($(zipCode).val())) {
         e.preventDefault();
         zipCode.attr("placeholder", "Required.").addClass("rouge");
