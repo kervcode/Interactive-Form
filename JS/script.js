@@ -151,16 +151,16 @@ $(function() {
       creditCardInfo.delay(100).slideUp();
       bitcoin.delay(100).slideUp();
       paypal.delay(150).slideDown();
-      creditCardNumber.removeClass('rouge');
-      zipCode.removeClass('rouge');
-      cvv.removeClass('rouge');
+      creditCardNumber.removeClass("rouge");
+      zipCode.removeClass("rouge");
+      cvv.removeClass("rouge");
     } else if (e.target.value === "Bitcoin") {
       creditCardInfo.delay(100).slideUp();
       paypal.delay(100).slideUp();
       bitcoin.delay(150).slideDown();
-      creditCardNumber.removeClass('rouge');
-      zipCode.removeClass('rouge');
-      cvv.removeClass('rouge');
+      creditCardNumber.removeClass("rouge");
+      zipCode.removeClass("rouge");
+      cvv.removeClass("rouge");
     }
   });
   // Use regular expression to check if name field is valid
@@ -176,7 +176,7 @@ $(function() {
   //Use regular expression to check if credit card field is valid
   // regex source for credit card: https://stackoverflow.com/questions/9315647/regex-credit-card-number-tests
   function isValidCC(cc) {
-    let creditCard = /^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/;
+    let creditCard = /^\d{13,16}$/;
     return creditCard.test(cc);
   }
   //Use regular expression to check if zip code field is valid
